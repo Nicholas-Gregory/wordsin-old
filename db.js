@@ -65,6 +65,16 @@ class Database {
     });
   }
 
+  updatePlayer(player) {
+    this.players.updateOne({ _id: player.id }, { $set: {
+      stats: player.stats,
+      inventory: player.inventory,
+      spellbook: player.spellbook,
+      feats: player.feats,
+      state: player.state
+    }});
+  }
+
   async playerByName(name) {
     const playerDoc = await this.players.findOne({ name: name });
 
