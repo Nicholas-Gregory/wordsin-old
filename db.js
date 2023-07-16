@@ -1,8 +1,7 @@
 const { MongoClient } = require("mongodb");
 
 const player = require("./lib/player.js");
-const item = require("./lib/item.js");
-const spell = require("./lib/spell.js");
+const usables = require("./lib/usables.js");
 
 require("dotenv").config();
 
@@ -17,10 +16,13 @@ class Database {
     this.usablesDb = this.client.db("usables");
     this.items = this.usablesDb.collection("items");
     this.spells = this.usablesDb.collection("spells");
+    this.feats = this.usablesDb.collection("feats");
 
     this.usersDb = this.client.db("users");
     this.players = this.usersDb.collection("players");
   }
+
+  //#region STORYLETS
 
   writeStorylet(storylet) {
     return this.storylets.insertOne({
@@ -48,26 +50,36 @@ class Database {
     return this.storyletById(storylet.actions[actionString]);
   }
 
+  //#endregion
+
+  //#region PLAYERS
+
   writePlayer(player) {
     return this.players.insertOne({
       _id: player.id,
-      skills: player.skills,
+      stats: player.stats,
       inventory: player.inventory,
-      spellbook: player.spellbook
+      spellbook: player.spellbook,
+      feats: player.feats,
+      state: player.state
     });
   }
 
   async playerByName(name) {
     const playerDoc = await this.players.findOne({ name: name });
 
-    return new player.Player(playerDoc._id, playerDoc.skills, playerDoc.inventory);
+    return new player.Player(playerDoc._id, playerDoc.stats, playerDoc.inventory, playerDoc.state);
   }
 
   async playerById(id) {
     const playerDoc = await this.players.findOne({ _id: id });
 
-    return new player.Player(playerDoc._id, playerDoc.skills, playerDoc.inventory);
+    return new player.Player(playerDoc._id, playerDoc.stats, playerDoc.inventory, playerDoc.state);
   }
+
+  //#endregion
+
+  //#region ITEMS
 
   writeItem(item) {
     return this.items.insertOne({
@@ -81,14 +93,18 @@ class Database {
   async itemById(id) {
     const itemDoc = await this.items.findOne({ _id: id });
 
-    return new item.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
+    return new usables.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
   }
 
   async itemByName(name) {
     const itemDoc = await this.items.findOne({ name: name });
 
-    return new item.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
+    return new usables.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
   }
+
+  //#endregion
+
+  //#region SPELLS
 
   writeSpell(spell) {
     return this.spells.insertOne({
@@ -102,14 +118,43 @@ class Database {
   async spellById(id) {
     const spellDoc = await this.spells.findOne({ _id: id });
 
-    return new spell.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
+    return new usables.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
   }
 
   async spellByName(name) {
     const spellDoc = await this.spells.findOne({ name: name });
 
-    return new spell.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
+    return new usables.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
   }
+
+  //#endregion
+
+  //#region FEATS
+
+  writeFeat(feat) {
+    return this.feats.insertOne({
+      _id: feat.id,
+      name: feat.name,
+      description: feat.description,
+      effect: feat.effect
+    });
+  }
+
+  async featById(id) {
+    const featDoc = await this.feats.findOne({ _id: id });
+
+    return new usables.Feat(featDoc._id, featDoc.name, featDoc.description, featDoc.effect);
+  }
+
+  async featByName(name) {
+    const featDoc = await this.feats.findOne({ name: name });
+
+    return new usables.Feat(featDoc._id, featDoc.name, featDoc.description, featDoc.effect);
+  }
+
+  //#endregion
+
+
 }
 
 module.exports = {
