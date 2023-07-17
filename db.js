@@ -3,7 +3,11 @@ const { MongoClient } = require("mongodb");
 const player = require("./lib/player.js");
 const usables = require("./lib/usables.js");
 
-require("dotenv").config();
+try { 
+  require("dotenv").config();
+} catch (e) {
+  console.log("dotenv not loaded");
+}
 
 class Database {
   constructor() {
@@ -18,8 +22,9 @@ class Database {
     this.spells = this.usablesDb.collection("spells");
     this.feats = this.usablesDb.collection("feats");
 
-    this.usersDb = this.client.db("users");
-    this.players = this.usersDb.collection("players");
+    this.userDb = this.client.db("user");
+    this.users = this.userDb.collection("users");
+    this.players = this.userDb.collection("players");
   }
 
   //#region STORYLETS
@@ -61,7 +66,8 @@ class Database {
       inventory: player.inventory,
       spellbook: player.spellbook,
       feats: player.feats,
-      state: player.state
+      state: player.state,
+      currentStorylet: player.currentStorylet
     });
   }
 
@@ -71,20 +77,31 @@ class Database {
       inventory: player.inventory,
       spellbook: player.spellbook,
       feats: player.feats,
-      state: player.state
+      state: player.state,
+      currentStorylet: player.currentStorylet
     }});
   }
 
   async playerByName(name) {
     const playerDoc = await this.players.findOne({ name: name });
 
-    return new player.Player(playerDoc._id, playerDoc.stats, playerDoc.inventory, playerDoc.state);
+    return new player.Player(
+        playerDoc._id, 
+        playerDoc.stats, 
+        playerDoc.inventory, 
+        playerDoc.state
+      );
   }
 
   async playerById(id) {
     const playerDoc = await this.players.findOne({ _id: id });
 
-    return new player.Player(playerDoc._id, playerDoc.stats, playerDoc.inventory, playerDoc.state);
+    return new player.Player(
+        playerDoc._id, 
+        playerDoc.stats, 
+        playerDoc.inventory, 
+        playerDoc.state
+      );
   }
 
   //#endregion
@@ -96,20 +113,33 @@ class Database {
       _id: item.id,
       name: item.name,
       description: item.description,
-      effect: item.effect
+      effect: item.effect,
+      recipe: item.recipe
     });
   }
 
   async itemById(id) {
     const itemDoc = await this.items.findOne({ _id: id });
 
-    return new usables.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
+    return new usables.Item(
+        itemDoc._id, 
+        itemDoc.name, 
+        itemDoc.description, 
+        itemDoc.effect, 
+        itemDoc.recipe
+      );
   }
 
   async itemByName(name) {
     const itemDoc = await this.items.findOne({ name: name });
 
-    return new usables.Item(itemDoc._id, itemDoc.name, itemDoc.description, itemDoc.effect);
+    return new usables.Item(
+        itemDoc._id, 
+        itemDoc.name, 
+        itemDoc.description, 
+        itemDoc.effect, 
+        itemDoc.recipe
+      );
   }
 
   //#endregion
@@ -121,20 +151,36 @@ class Database {
       _id: spell.id,
       name: spell.name,
       description: spell.description,
-      effect: spell.effect
+      effect: spell.effect,
+      cost: spell.cost,
+      difficulty: spell.difficulty
     });
   }
 
   async spellById(id) {
     const spellDoc = await this.spells.findOne({ _id: id });
 
-    return new usables.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
+    return new usables.Spell(
+        spellDoc._id, 
+        spellDoc.name, 
+        spellDoc.description, 
+        spellDoc.effect, 
+        spellDoc.cost, 
+        spellDoc.difficulty
+      );
   }
 
   async spellByName(name) {
     const spellDoc = await this.spells.findOne({ name: name });
 
-    return new usables.Spell(spellDoc._id, spellDoc.name, spellDoc.description, spellDoc.effect);
+    return new usables.Spell(
+        spellDoc._id, 
+        spellDoc.name, 
+        spellDoc.description, 
+        spellDoc.effect, 
+        spellDoc.cost, 
+        spellDoc.difficulty
+      );
   }
 
   //#endregion
