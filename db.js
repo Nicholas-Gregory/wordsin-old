@@ -154,7 +154,8 @@ class Database {
       effect: spell.effect,
       cost: spell.cost,
       difficulty: spell.difficulty,
-      skillCeiling: spell.skillCeiling
+      skillCeiling: spell.skillCeiling,
+      intentType: spell.intentType
     });
   }
 
@@ -168,7 +169,8 @@ class Database {
         spellDoc.effect, 
         spellDoc.cost, 
         spellDoc.difficulty,
-        spellDoc.skillCeiling
+        spellDoc.skillCeiling,
+        spellDoc.intentType
       );
   }
 
@@ -182,7 +184,8 @@ class Database {
         spellDoc.effect, 
         spellDoc.cost, 
         spellDoc.difficulty,
-        spellDoc.skillCeiling
+        spellDoc.skillCeiling,
+        spellDoc.intentType
       );
   }
 
