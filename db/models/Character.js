@@ -57,18 +57,18 @@ Character.init({
     acuity: {
         type: DataTypes.INTEGER
     },
-    currentLocation: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'Location',
-            key: 'id'
-        }
-    }
+    // currentLocation: {
+    //     type: DataTypes.INTEGER,
+    //     references: {
+    //         model: 'Location',
+    //         key: 'id'
+    //     }
+    // }
 
 }, {
     sequelize,
     freezeTableName: true,
-    modelName: 'StoryText'
+    modelName: 'Character'
 });
 
 module.exports = Character;

@@ -1,6 +1,6 @@
-const StoryText = require('./StoryText');
-const Character = require('./Character');
-const User = require('./User');
+const StoryText = require('./StoryText.js');
+const Character = require('./Character.js');
+const User = require('./User.js');
 
 StoryText.hasMany(StoryText, { foreignKey: 'parentId' });
 StoryText.belongsTo(StoryText, { foreignKey: 'parentId' });
