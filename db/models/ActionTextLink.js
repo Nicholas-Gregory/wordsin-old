@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config');
 
-class TextLink extends Model {}
+class ActionTextLink extends Model {}
 
-TextLink.init({
+ActionTextLink.init({
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -11,24 +11,17 @@ TextLink.init({
         autoIncrement: true,
         unique: true
     },
-    to: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'StoryText',
-            key: 'id'
-        }
-    },
-    from: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: 'StoryText',
-            key: 'id'
-        }
-    },
     actionId: {
         type: DataTypes.INTEGER,
         references: {
             model: 'Action',
+            key: 'id'
+        }
+    },
+    textLinkId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'TextLink',
             key: 'id'
         }
     }
@@ -36,7 +29,7 @@ TextLink.init({
 {
     sequelize,
     freezeTableName: true,
-    modelName: 'TextLink'
+    modelName: 'ActionTextLink'
 });
 
-module.exports = TextLink;
+module.exports = ActionTextLink
