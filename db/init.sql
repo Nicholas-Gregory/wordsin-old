@@ -1,2 +1,0 @@
-DROP DATABASE IF EXISTS wordsin_db;
-CREATE DATABASE wordsin_db;
