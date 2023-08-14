@@ -29,13 +29,6 @@ Spell.init({
             model: Effect,
             key: 'id'
         }
-    },
-    grimoireId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Grimoire,
-            key: 'id'
-        }
     }
 }, {
     sequelize,

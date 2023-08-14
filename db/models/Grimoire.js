@@ -15,13 +15,6 @@ Grimoire.init({
         unique: true,
         allowNull: false
     },
-    inventoryId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: GrimoireInventory,
-            key: 'id'
-        }
-    }
 }, {
     sequelize,
     freezeTableName: true,

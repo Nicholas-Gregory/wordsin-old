@@ -20,13 +20,6 @@ Item.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    inventoryId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: ItemInventory,
-            key: 'id'
-        }
-    },
     effectId: {
         type: DataTypes.INTEGER,
         references: {
