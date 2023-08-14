@@ -85,6 +85,9 @@ Affect.belongsTo(Keyword, { foreignKey: 'keywordId' });
 Keyword.hasMany(Modifier, { foreignKey: 'keywordId' });
 Modifier.belongsTo(Keyword, { foreignKey: 'keywordId' });
 
+Affect.hasMany(Spell, { foreignKey: 'cost' });
+Spell.belongsTo(Affect, { foreignKey: 'cost' });
+
 module.exports = {
     Character, 
     ItemInventory, Item,
