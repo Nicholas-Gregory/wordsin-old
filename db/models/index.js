@@ -109,6 +109,9 @@ Modifier.belongsToMany(Enchantment, {
     foreignKey: 'modifierId'
 });
 
+Equipment.hasMany(Enchantment, { foreignKey: 'equipmentId' });
+Enchantment.belongsTo(Equipment, { foreignKey: 'equipmentId' });
+
 module.exports = {
     Character, 
     ItemInventory, Item,
@@ -116,5 +119,6 @@ module.exports = {
     Spell, Grimoire, GrimoireInventory,
     Equipment, EquipmentInventory,
     EquipmentInInventory, ItemInInventory, GrimoireInInventory, SpellInGrimoire,
-    Affect, Modifier, EquipmentHasModifier
+    Affect, Modifier, EquipmentHasModifier,
+    Enchantment, EnchantmentHasModifier
 }
