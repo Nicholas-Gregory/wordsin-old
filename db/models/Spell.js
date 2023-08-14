@@ -2,7 +2,6 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 const Effect = require('./Effect');
-const Grimoire = require('./Grimoire');
 
 class Spell extends Model {
 
