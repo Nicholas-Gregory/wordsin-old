@@ -43,6 +43,9 @@ Spell.belongsTo(Effect, { foreignKey: 'effectId' });
 Effect.hasOne(Equipment, { foreignKey: 'effectId' });
 Equipment.belongsTo(Effect, { foreignKey: 'effectId' });
 
+Effect.hasOne(Item, { foreignKey: 'effectId' });
+Item.belongsTo(Effect, { foreignKey: 'effectId' });
+
 Grimoire.hasMany(Spell, { foreignKey: 'grimoireId' });
 Spell.belongsTo(Grimoire, { foreignKey: 'grimoireId' });
 

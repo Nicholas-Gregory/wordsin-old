@@ -2,6 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 const ItemInventory = require('./ItemInventory');
+const Effect = require('./Effect');
 
 class Item extends Model {
     
@@ -23,6 +24,13 @@ Item.init({
         type: DataTypes.INTEGER,
         references: {
             model: ItemInventory,
+            key: 'id'
+        }
+    },
+    effectId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Effect,
             key: 'id'
         }
     }
