@@ -21,6 +21,9 @@ EquipmentInventory.init({
             model: Character,
             key: 'id'
         }
+    },
+    capacity: {
+        type: DataTypes.INTEGER
     }
 }, {
     sequelize,
