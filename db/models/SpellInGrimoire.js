@@ -1,14 +1,12 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Effect = require('./Effect');
+const Spell = require('./Spell');
 const Grimoire = require('./Grimoire');
 
-class Spell extends Model {
+class SpellInGrimoire extends Model {}
 
-}
-
-Spell.init({
+SpellInGrimoire.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -16,17 +14,10 @@ Spell.init({
         unique: true,
         allowNull: false
     },
-    name: {
-        type: DataTypes.STRING
-    },
-    description: {
-        type: DataTypes.TEXT
-    },
-    // TODO cost
-    effectId: {
+    spellId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Effect,
+            model: Spell,
             key: 'id'
         }
     },
@@ -40,7 +31,7 @@ Spell.init({
 }, {
     sequelize,
     freezeTableName: true,
-    modelName: 'Spell'
+    modelName: 'SpellInGrimoire'
 });
 
-module.exports = Spell;
+module.exports = SpellInGrimoire;
