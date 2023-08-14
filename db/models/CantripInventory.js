@@ -1,13 +1,13 @@
-const { Model, DataTypes } = require('sequelize');
+const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
 const Character = require('./Character');
 
-class EquipmentInventory extends Model{
+class CantripInventory extends Model {
 
 }
 
-EquipmentInventory.init({
+CantripInventory.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -31,7 +31,7 @@ EquipmentInventory.init({
 }, {
     sequelize,
     freezeTableName: true,
-    modelName: 'EquipmentInventory'
+    modelName: 'CantripInventory'
 });
 
-module.exports = EquipmentInventory;
+module.exports = CantripInventory;

@@ -21,7 +21,10 @@ GrimoireInventory.init({
         }
     },
     capacity: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        validate: {
+            min: 1
+        }
     }
 }, 
 {

@@ -14,10 +14,16 @@ Effect.init({
         allowNull: false
     },
     ceil: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        validate: {
+            min: 1
+        }
     },
     time: {
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        validate: {
+            min: 1
+        }
     }
 }, {
     sequelize,
