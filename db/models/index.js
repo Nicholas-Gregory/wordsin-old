@@ -23,6 +23,7 @@ const NextStorylet = require('./NextStorylet');
 const AffectToAdvance = require('./AffectToAdvance');
 const Cantrip = require('./Cantrip');
 const CantripInventory = require('./CantripInventory');
+const CantripInInventory = require('./CantripInInventory');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -143,6 +144,15 @@ Cantrip.belongsTo(Effect, { foreignKey: 'effectId' });
 Character.hasOne(CantripInventory, { foreignKey: 'characterId' });
 CantripInventory.belongsTo(Character, { foreignKey: 'characterId' });
 
+Cantrip.belongsToMany(CantripInventory, {
+    through: CantripInInventory,
+    foreignKey: 'cantripId'
+});
+CantripInventory.belongsToMany(Cantrip, {
+    through: CantripInInventory,
+    foreignKey: 'inventoryId'
+});
+
 module.exports = {
     Character, 
     ItemInventory, Item,
@@ -153,5 +163,5 @@ module.exports = {
     Affect, Modifier, EquipmentHasModifier,
     Enchantment, EnchantmentHasModifier,
     Storylet, NextStorylet, AffectToAdvance,
-    Cantrip, CantripInventory
-}
+    Cantrip, CantripInventory, CantripInInventory
+};
