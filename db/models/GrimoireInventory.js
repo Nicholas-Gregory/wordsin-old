@@ -1,13 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const GrimoireInventory = require('./GrimoireInventory');
+const Character = require('./Character');
 
-class Grimoire extends Model {
+class GrimoireInventory extends Model {}
 
-}
-
-Grimoire.init({
+GrimoireInventory.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,17 +13,18 @@ Grimoire.init({
         unique: true,
         allowNull: false
     },
-    inventoryId: {
+    characterId: {
         type: DataTypes.INTEGER,
         references: {
-            model: GrimoireInventory,
+            model: Character,
             key: 'id'
         }
     }
-}, {
+}, 
+{
     sequelize,
     freezeTableName: true,
-    modelName: 'Grimoire'
+    modelName: 'GrimoireInventory'
 });
 
-module.exports = Grimoire;
+module.exports = GrimoireInventory;

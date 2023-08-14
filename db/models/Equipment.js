@@ -1,13 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const GrimoireInventory = require('./GrimoireInventory');
+const EquipmentInventory = require('./EquipmentInventory');
 
-class Grimoire extends Model {
+class Equipment extends Model {}
 
-}
-
-Grimoire.init({
+Equipment.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -15,17 +13,22 @@ Grimoire.init({
         unique: true,
         allowNull: false
     },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     inventoryId: {
         type: DataTypes.INTEGER,
         references: {
-            model: GrimoireInventory,
+            model: EquipmentInventory,
             key: 'id'
         }
     }
-}, {
+},
+{
     sequelize,
     freezeTableName: true,
-    modelName: 'Grimoire'
+    modelName: 'Equipment'
 });
 
-module.exports = Grimoire;
+module.exports = Equipment;
