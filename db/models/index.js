@@ -16,6 +16,8 @@ const SpellInGrimoire = require('./SpellInGrimoire');
 const Affect = require ('./Affect');
 const Modifier = require('./Modifier');
 const EquipmentHasModifier = require('./EquipmentHasModifier');
+const Enchantment = require('./Enchantment');
+const EnchantmentHasModifier = require('./EnchantmentHasModifier');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -98,6 +100,15 @@ Modifier.belongsToMany(Equipment, {
     foreignKey: 'modifierId'
 });
 
+Enchantment.belongsToMany(Modifier, {
+    through: EnchantmentHasModifier,
+    foreignKey: 'enchantmentId'
+});
+Modifier.belongsToMany(Enchantment, {
+    through: EnchantmentHasModifier,
+    foreignKey: 'modifierId'
+});
+
 module.exports = {
     Character, 
     ItemInventory, Item,
@@ -105,5 +116,5 @@ module.exports = {
     Spell, Grimoire, GrimoireInventory,
     Equipment, EquipmentInventory,
     EquipmentInInventory, ItemInInventory, GrimoireInInventory, SpellInGrimoire,
-    Affect, Modifier
+    Affect, Modifier, EquipmentHasModifier
 }
