@@ -20,7 +20,7 @@ Affect.init({
             key: 'id'
         }
     },
-    req: {
+    requirement: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {

@@ -15,6 +15,10 @@ Grimoire.init({
         unique: true,
         allowNull: false
     },
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
 }, {
     sequelize,
     freezeTableName: true,
