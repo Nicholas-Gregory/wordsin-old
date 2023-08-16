@@ -5,22 +5,47 @@ const GrimoireInInventory = require('./GrimoireInInventory')
 
 class GrimoireInventory extends Model {
 
+    async total() {
+        return (await this.getGrimoires()).length;
+    }
+
     async add(grimoire) {
         const through = await GrimoireInInventory.findOne({
             where: {
-                inventoryId: this.id
+                inventoryId: this.id,
+                grimoireId: grimoire.id
             }
         });
 
         if (through) {
-            through.quantity++;
-            await through.save();
+            if (this.total() < this.capacity) {
+                through.quantity++;
+                await through.save();
+            }
         } else {
             await GrimoireInInventory.create({
                 grimoireId: grimoire.id,
                 inventoryId: this.id,
                 quantity: 1
             });
+        }
+    }
+
+    async remove(grimoire) {
+        const through = await GrimoireInInventory.findOne({
+            where: {
+                inventoryId: this.id,
+                grimoireId: grimoire.id
+            }
+        });
+
+        if (through) {
+            if (through.quantity === 1) {
+                await through.destroy();
+            } else {
+                through.quantity--;
+                through.save();
+            }
         }
     }
 }
@@ -42,6 +67,7 @@ GrimoireInventory.init({
     },
     capacity: {
         type: DataTypes.INTEGER,
+        defaultValue: 10,
         validate: {
             min: 1
         }

@@ -1,4 +1,3 @@
-const { combine } = require('./lib/effect');
 const sequelize = require('./db/connection');
 const models = require('./db/models');
 
@@ -13,7 +12,7 @@ sequelize.sync({ force: true }).then(async () => {
 
     await roland.addEquipmentToInventory(await models.Equipment.create({
         name: 'Piano of Triumph',
-        description: 'Play a note and you will triumph in one endeavor on one day, both picked at random'
+        description: 'Play a song well and you will triumph in one endeavor on one day, both picked at random'
     }));
 
     await roland.addGrimoireToInventory(await models.Grimoire.create({

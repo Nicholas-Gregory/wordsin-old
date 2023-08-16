@@ -16,7 +16,7 @@ AffectToAdvance.init({
     next: {
         type: DataTypes.INTEGER,
         references: {
-            model: sequelize.models.NextStorylets,
+            model: sequelize.models.NextStorylet,
             key: 'id'
         }
     },
