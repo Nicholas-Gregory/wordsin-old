@@ -1,9 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Effect = require('./Effect');
-const Keyword = require('./Keyword');
-
 class EffectWord extends Model {
 
 }
@@ -19,14 +16,14 @@ EffectWord.init({
     effectId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Effect,
+            model: sequelize.models.Effect,
             key: 'id'
         }
     },
     keywordId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Keyword,
+            model: sequelize.models.Keyword,
             key: 'id'
         }
     }

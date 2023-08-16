@@ -1,8 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-const Effect = require('./Effect');
-
 class Cantrip extends Model {}
 
 Cantrip.init({
@@ -16,7 +14,7 @@ Cantrip.init({
     effectId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Effect,
+            model: sequelize.models.Effect,
             key: 'id'
         }
     },

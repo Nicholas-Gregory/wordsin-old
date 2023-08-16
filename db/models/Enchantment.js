@@ -1,8 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Equipment = require('./Equipment');
-
 class Enchantment extends Model {
 
 }
@@ -18,7 +16,7 @@ Enchantment.init({
     equipmentId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Equipment,
+            model: sequelize.models.Equipment,
             key: 'id'
         }
     },

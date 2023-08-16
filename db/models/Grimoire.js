@@ -1,8 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const GrimoireInventory = require('./GrimoireInventory');
-
 class Grimoire extends Model {
 
 }

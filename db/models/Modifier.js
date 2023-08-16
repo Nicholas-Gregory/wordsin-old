@@ -1,8 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-const Keyword = require('./Keyword');
-
 class Modifier extends Model {}
 
 Modifier.init({
@@ -16,7 +14,7 @@ Modifier.init({
     keywordId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Keyword,
+            model: sequelize.models.Keyword,
             key: 'id'
         }
     },

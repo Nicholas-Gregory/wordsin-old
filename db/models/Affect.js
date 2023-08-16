@@ -1,8 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-const Keyword = require('./Keyword');
-
 class Affect extends Model {}
 
 Affect.init({
@@ -16,7 +14,7 @@ Affect.init({
     keywordId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Keyword,
+            model: sequelize.models.Keyword,
             key: 'id'
         }
     },

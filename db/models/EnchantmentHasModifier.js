@@ -1,9 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Enchantment = require('./Enchantment');
-const Modifier = require('./Modifier');
-
 class EnchantmentHasModifier extends Model {}
 
 EnchantmentHasModifier.init({
@@ -17,14 +14,14 @@ EnchantmentHasModifier.init({
     enchantmentId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Enchantment,
+            model: sequelize.models.Enchantment,
             key: 'id'
         }
     },
     modifierId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Modifier,
+            model: sequelize.models.Modifier,
             key: 'id'
         }
     }

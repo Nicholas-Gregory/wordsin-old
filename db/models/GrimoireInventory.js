@@ -1,9 +1,29 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Character = require('./Character');
+const GrimoireInInventory = require('./GrimoireInInventory')
 
-class GrimoireInventory extends Model {}
+class GrimoireInventory extends Model {
+
+    async add(grimoire) {
+        const through = await GrimoireInInventory.findOne({
+            where: {
+                inventoryId: this.id
+            }
+        });
+
+        if (through) {
+            through.quantity++;
+            await through.save();
+        } else {
+            await GrimoireInInventory.create({
+                grimoireId: grimoire.id,
+                inventoryId: this.id,
+                quantity: 1
+            });
+        }
+    }
+}
 
 GrimoireInventory.init({
     id: {
@@ -16,7 +36,7 @@ GrimoireInventory.init({
     characterId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Character,
+            model: sequelize.models.Character,
             key: 'id'
         }
     },

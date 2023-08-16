@@ -1,9 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Spell = require('./Spell');
-const Grimoire = require('./Grimoire');
-
 class SpellInGrimoire extends Model {}
 
 SpellInGrimoire.init({
@@ -17,14 +14,14 @@ SpellInGrimoire.init({
     spellId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Spell,
+            model: sequelize.models.Spell,
             key: 'id'
         }
     },
     grimoireId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Grimoire,
+            model: sequelize.models.Grimoire,
             key: 'id'
         }
     }

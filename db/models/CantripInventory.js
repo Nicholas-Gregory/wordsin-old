@@ -1,8 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-const Character = require('./Character');
-
 class CantripInventory extends Model {
 
 }
@@ -18,7 +16,7 @@ CantripInventory.init({
     characterId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Character,
+            model: sequelize.models.Character,
             key: 'id'
         }
     },

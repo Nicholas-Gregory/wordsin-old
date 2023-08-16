@@ -1,8 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const Storylet = require('./Storylet');
-
 class NextStorylet extends Model {}
 
 NextStorylet.init({
@@ -16,14 +14,14 @@ NextStorylet.init({
     next: {
         type: DataTypes.INTEGER,
         references: {
-            model: Storylet,
+            model: sequelize.models.Storylet,
             key: 'id'
         }
     },
     current: {
         type: DataTypes.INTEGER,
         references: {
-            model: Storylet,
+            model: sequelize.models.Storylet,
             key: 'id'
         }
     }

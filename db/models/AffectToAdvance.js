@@ -1,9 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-const NextStorylets = require('./NextStorylet');
-const Affect = require('./Affect');
-
 class AffectToAdvance extends Model {
 
 }
@@ -19,14 +16,14 @@ AffectToAdvance.init({
     next: {
         type: DataTypes.INTEGER,
         references: {
-            model: NextStorylets,
+            model: sequelize.models.NextStorylets,
             key: 'id'
         }
     },
     affectId: {
         type: DataTypes.INTEGER,
         references: {
-            model: Affect,
+            model: sequelize.models.Affect,
             key: 'id'
         }
     }
