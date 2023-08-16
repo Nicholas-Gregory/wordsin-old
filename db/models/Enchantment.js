@@ -1,8 +1,16 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
+const EnchantmentHasModifier = require('./EnchantmentHasModifier');
+
 class Enchantment extends Model {
 
+    async addModifier(modifier) {
+        await EnchantmentHasModifier.create({
+            enchantmentId: this.id,
+            modifierId: modifier.id
+        });
+    }
 }
 
 Enchantment.init({

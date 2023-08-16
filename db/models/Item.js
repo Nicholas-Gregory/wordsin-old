@@ -3,6 +3,10 @@ const sequelize = require('../connection');
 
 class Item extends Model {
     
+    async associateEffect(effect) {
+        this.effectId = effect.id;
+        await this.save();
+    }
 }
 
 Item.init({

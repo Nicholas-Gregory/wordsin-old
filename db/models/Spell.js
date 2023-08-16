@@ -3,6 +3,10 @@ const sequelize = require('../connection');
 
 class Spell extends Model {
 
+    async associateEffect(effect) {
+        this.effectId = effect.id;
+        await this.save();
+    }
 }
 
 Spell.init({

@@ -1,7 +1,13 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-class Affect extends Model {}
+class Affect extends Model {
+
+    async associateKeyword(keyword) {
+        this.keywordId = keyword.id;
+        await this.save();
+    }
+}
 
 Affect.init({
     id: {

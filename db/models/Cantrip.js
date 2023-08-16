@@ -1,7 +1,13 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-class Cantrip extends Model {}
+class Cantrip extends Model {
+
+    async associateEffect(effect) {
+        this.effectId = effect.id;
+        await this.save();
+    }
+}
 
 Cantrip.init({
     id: {

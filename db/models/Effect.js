@@ -1,8 +1,16 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-class Effect extends Model {
+const EffectWord = require('./EffectWord');
 
+class Effect extends Model {
+    
+    async addKeyword(keyword) {
+        await EffectWord.create({
+            effectId: this.id,
+            keywordId: keyword.id
+        });
+    }
 }
 
 Effect.init({
