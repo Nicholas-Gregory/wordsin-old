@@ -2,6 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 const EquipmentHasModifier = require('./EquipmentHasModifier');
+const EquipmentHasEnchantment = require('./EquipmentHasEnchantment');
 
 class Equipment extends Model {
 
@@ -9,6 +10,13 @@ class Equipment extends Model {
         await EquipmentHasModifier.create({
             equipmentId: this.id,
             modifierId: modifier.id
+        });
+    }
+
+    async addEnchantment(enchantment) {
+        await EquipmentHasEnchantment.create({
+            enchantmentId: enchantment.id,
+            equipmentId: this.id
         });
     }
 }
