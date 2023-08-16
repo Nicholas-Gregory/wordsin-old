@@ -24,6 +24,7 @@ const AffectToAdvance = require('./AffectToAdvance');
 const Cantrip = require('./Cantrip');
 const CantripInventory = require('./CantripInventory');
 const CantripInInventory = require('./CantripInInventory');
+const SkillModifier = require('./SkillModifier');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -33,6 +34,15 @@ EquipmentInventory.belongsTo(Character, { foreignKey: 'characterId' });
 
 Character.hasOne(GrimoireInventory, { foreignKey: 'characterId' });
 GrimoireInventory.belongsTo(Character, { foreignKey: 'characterId' });
+
+Character.belongsToMany(Modifier, {
+    through: SkillModifier,
+    foreignKey: 'characterId'
+});
+Modifier.belongsToMany(Character, {
+    through: SkillModifier,
+    foreignKey: 'modifierId'
+});
 
 EquipmentInventory.belongsToMany(Equipment, {
     through: EquipmentInInventory,

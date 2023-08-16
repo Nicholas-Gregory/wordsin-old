@@ -1,15 +1,9 @@
-const { DataTypes, Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-class Modifier extends Model {
+class SkillModifier extends Model {}
 
-    async associateKeyword(keyword) {
-        this.keywordId = keyword.id;
-        await this.save();
-    }
-}
-
-Modifier.init({
+SkillModifier.init({
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -17,24 +11,23 @@ Modifier.init({
         unique: true,
         allowNull: false
     },
-    keywordId: {
+    characterId: {
         type: DataTypes.INTEGER,
         references: {
-            model: sequelize.models.Keyword,
+            model: sequelize.models.Character,
             key: 'id'
         }
     },
-    amount: {
+    modifierId: {
         type: DataTypes.INTEGER,
-        validate: {
-            min: 1
+        references: {
+            model: sequelize.models.Modifier
         }
     }
-},
-{
+}, {
     sequelize,
     freezeTableName: true,
-    modelName: 'Modifier'
+    modelName: 'SkillModifier'
 });
 
-module.exports = Modifier;
+module.exports = SkillModifier;

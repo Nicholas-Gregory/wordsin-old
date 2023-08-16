@@ -1,7 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-class Equipment extends Model {}
+const EquipmentHasModifier = require('./EquipmentHasModifier');
+
+class Equipment extends Model {
+
+    async addModifier(modifier) {
+        await EquipmentHasModifier.create({
+            equipmentId: this.id,
+            modifierId: modifier.id
+        });
+    }
+}
 
 Equipment.init({
     id: {
