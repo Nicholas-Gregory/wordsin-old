@@ -26,6 +26,8 @@ const CantripInventory = require('./CantripInventory');
 const CantripInInventory = require('./CantripInInventory');
 const SkillModifier = require('./SkillModifier');
 const EquipmentHasEnchantment = require('./EquipmentHasEnchantment');
+const World = require('./World');
+const LinkInWorld = require('./LinkInWorld');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -168,6 +170,15 @@ Cantrip.belongsToMany(CantripInventory, {
 CantripInventory.belongsToMany(Cantrip, {
     through: CantripInInventory,
     foreignKey: 'inventoryId'
+});
+
+World.belongsToMany(NextStorylet, {
+    through: LinkInWorld,
+    foreignKey: 'worldId'
+});
+NextStorylet.belongsToMany(World, {
+    through: LinkInWorld,
+    foreignKey: 'linkId'
 });
 
 module.exports = {
