@@ -21,13 +21,6 @@ Enchantment.init({
         unique: true,
         allowNull: false
     },
-    equipmentId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: sequelize.models.Equipment,
-            key: 'id'
-        }
-    },
     cap: {
         type: DataTypes.INTEGER,
         validate: {

@@ -19,6 +19,11 @@ class Equipment extends Model {
             equipmentId: this.id
         });
     }
+
+    async associateEffect(effect) {
+        this.effectId = effect.id;
+        await this.save();
+    }
 }
 
 Equipment.init({
