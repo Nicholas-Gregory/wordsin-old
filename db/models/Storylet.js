@@ -14,7 +14,7 @@ class Storylet extends Model {
         });
         
         await AffectToAdvance.bulkCreate(affects.map(affect => ({
-            next: storylet.id,
+            next: link.id,
             affectId: affect.id
         })));
     }
