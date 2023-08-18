@@ -2,7 +2,6 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 const NextStorylet = require('./NextStorylet');
-const Affect = require('./Affect');
 const AffectToAdvance = require('./AffectToAdvance');
 
 class Storylet extends Model {
