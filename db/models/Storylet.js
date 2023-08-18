@@ -6,8 +6,8 @@ const Affect = require('./Affect');
 
 class Storylet extends Model {
     
-    affectsAndNexts() {
-        const affectsAndLinks = NextStorylet.findAll({
+    async affectsAndNexts() {
+        const affectsAndLinks = await NextStorylet.findAll({
             where: {
                 current: this.id
             },
