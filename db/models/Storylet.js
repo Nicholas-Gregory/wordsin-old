@@ -23,14 +23,13 @@ class Storylet extends Model {
         const affectsAndLinks = await NextStorylet.findAll({
             where: {
                 current: this.id
-            },
-            include: Affect
+            }
         });
 
-        return affectsAndLinks.map(element => ({ 
-            storylet: element.next, 
-            affects: element.affects
-        }));
+        return Promise.all(affectsAndLinks.map(async element => ({ 
+            storylet: await Storylet.findByPk(element.next), 
+            affects: await element.getAffects()
+        })));
     }
 }
 
