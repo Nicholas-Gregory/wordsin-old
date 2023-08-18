@@ -2,12 +2,10 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 class LinkInWorld extends Model {
+
     async update(state) {
-        await LinkInWorld.update({ active: state }, {
-            where: {
-                id: this.id
-            }
-        });
+        this.active = state;
+        await this.save();
     }
 }
 
