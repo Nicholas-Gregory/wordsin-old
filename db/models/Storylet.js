@@ -1,7 +1,25 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-class Storylet extends Model {}
+const NextStorylet = require('./NextStorylet');
+const Affect = require('./Affect');
+
+class Storylet extends Model {
+    
+    affectsAndNexts() {
+        const affectsAndLinks = NextStorylet.findAll({
+            where: {
+                current: this.id
+            },
+            include: Affect
+        });
+
+        return affectsAndLinks.map(element => ({ 
+            storylet: element.next, 
+            affects: element.affects
+        }));
+    }
+}
 
 Storylet.init({
     id: {

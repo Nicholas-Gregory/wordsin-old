@@ -38,6 +38,9 @@ EquipmentInventory.belongsTo(Character, { foreignKey: 'characterId' });
 Character.hasOne(GrimoireInventory, { foreignKey: 'characterId' });
 GrimoireInventory.belongsTo(Character, { foreignKey: 'characterId' });
 
+Character.hasOne(CantripInventory, { foreignKey: 'characterId' });
+CantripInventory.belongsTo(Character, { foreignKey: 'characterId' });
+
 Character.belongsToMany(Modifier, {
     through: SkillModifier,
     foreignKey: 'characterId'
@@ -160,9 +163,6 @@ NextStorylet.belongsToMany(Affect, {
 Effect.hasMany(Cantrip, { foreignKey: 'effectId' });
 Cantrip.belongsTo(Effect, { foreignKey: 'effectId' });
 
-Character.hasOne(CantripInventory, { foreignKey: 'characterId' });
-CantripInventory.belongsTo(Character, { foreignKey: 'characterId' });
-
 Cantrip.belongsToMany(CantripInventory, {
     through: CantripInInventory,
     foreignKey: 'cantripId'
@@ -189,7 +189,8 @@ module.exports = {
     Equipment, EquipmentInventory,
     EquipmentInInventory, ItemInInventory, GrimoireInInventory, SpellInGrimoire,
     Affect, Modifier, EquipmentHasModifier,
-    Enchantment, EnchantmentHasModifier,
+    Enchantment, EnchantmentHasModifier, EquipmentHasEnchantment,
     Storylet, NextStorylet, AffectToAdvance,
-    Cantrip, CantripInventory, CantripInInventory
+    Cantrip, CantripInventory, CantripInInventory,
+    World, LinkInWorld
 };

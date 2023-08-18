@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 class World extends Model {
-
+    
 }
 
 World.init({
