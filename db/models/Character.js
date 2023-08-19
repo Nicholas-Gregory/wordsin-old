@@ -77,6 +77,13 @@ Character.init({
         validate: {
             min: 1
         }
+    },
+    worldId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: sequelize.models.World,
+            key: 'id'
+        }
     }
 },
 {

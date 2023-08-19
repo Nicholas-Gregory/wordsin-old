@@ -28,7 +28,6 @@ const SkillModifier = require('./SkillModifier');
 const EquipmentHasEnchantment = require('./EquipmentHasEnchantment');
 const World = require('./World');
 const LinkInWorld = require('./LinkInWorld');
-const AdvanceWorld = require('./AdvanceWorld');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -50,6 +49,9 @@ Modifier.belongsToMany(Character, {
     through: SkillModifier,
     foreignKey: 'modifierId'
 });
+
+World.hasMany(Character, { foreignKey: 'worldId' });
+Character.belongsTo(World, { foreignKey: 'worldId' });
 
 EquipmentInventory.belongsToMany(Equipment, {
     through: EquipmentInInventory,
@@ -180,15 +182,6 @@ World.belongsToMany(NextStorylet, {
 NextStorylet.belongsToMany(World, {
     through: LinkInWorld,
     foreignKey: 'linkId'
-});
-
-AffectToAdvance.belongsToMany(LinkInWorld, {
-    through: AdvanceWorld,
-    foreignKey: 'advanceId'
-});
-LinkInWorld.belongsToMany(AffectToAdvance, {
-    through: AdvanceWorld,
-    foreignKey: 'worldLinkId'
 });
 
 module.exports = {
