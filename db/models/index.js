@@ -199,5 +199,5 @@ module.exports = {
     Enchantment, EnchantmentHasModifier, EquipmentHasEnchantment,
     Storylet, NextStorylet, AffectToAdvance,
     Cantrip, CantripInventory, CantripInInventory,
-    World, LinkInWorld
+    World, LinkInWorld, StateChange
 };
