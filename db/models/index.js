@@ -28,6 +28,7 @@ const SkillModifier = require('./SkillModifier');
 const EquipmentHasEnchantment = require('./EquipmentHasEnchantment');
 const World = require('./World');
 const LinkInWorld = require('./LinkInWorld');
+const StateChange = require('./StateChange');
 
 Character.hasOne(ItemInventory, { foreignKey: 'characterId' });
 ItemInventory.belongsTo(Character, { foreignKey: 'characterId' });
@@ -183,6 +184,9 @@ NextStorylet.belongsToMany(World, {
     through: LinkInWorld,
     foreignKey: 'linkId'
 });
+
+LinkInWorld.hasMany(StateChange, { foreignKey: 'linkId' });
+StateChange.belongsTo(LinkInWorld, { foreignKey: 'linkId' });
 
 module.exports = {
     Character, 
