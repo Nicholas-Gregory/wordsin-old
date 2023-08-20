@@ -36,7 +36,7 @@ LinkInWorld.init({
         defaultValue: true
     }
 }, {
-    sequelize,
+    sequelize,    
     freezeTableName: true,
     modelName: 'LinkInWorld'
 });

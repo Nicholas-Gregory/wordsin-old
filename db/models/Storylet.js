@@ -16,6 +16,8 @@ class Storylet extends Model {
             next: link.id,
             affectId: affect.id
         })));
+
+        return link;
     }
     
     async affectsAndNexts() {
@@ -25,7 +27,7 @@ class Storylet extends Model {
             }
         });
 
-        return Promise.all(affectsAndLinks.map(async element => ({ 
+        return await Promise.all(affectsAndLinks.map(async element => ({ 
             storylet: await Storylet.findByPk(element.next), 
             affects: await element.getAffects()
         })));

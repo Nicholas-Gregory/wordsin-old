@@ -1,7 +1,12 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
-class StateChange extends Model {}
+class StateChange extends Model {
+
+    async change() {
+        await (await this.getLinkInWorld()).update(this.state);
+    }
+}
 
 StateChange.init({
     id: {
