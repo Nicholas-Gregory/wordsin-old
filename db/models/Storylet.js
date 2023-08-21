@@ -12,12 +12,12 @@ class Storylet extends Model {
             current: this.id
         });
         
-        await AffectToAdvance.bulkCreate(affects.map(affect => ({
+        const advance = await AffectToAdvance.bulkCreate(affects.map(affect => ({
             next: link.id,
             affectId: affect.id
         })));
 
-        return link;
+        return { link, advance };
     }
     
     async affectsAndNexts() {

@@ -1,12 +1,27 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
-const LinkInWorld = require('./LinkInWorld');
+const StateChange = require('./StateChange');
+const AffectToAdvance = require('./AffectToAdvance');
 
 class World extends Model {
 
-    async changeState(player, affect) {
-    
+    async changeState(affect) {
+        const advances = await AffectToAdvance.findAll({
+            where: {
+                affectId: affect.id
+            },
+            include: {
+                model: StateChange,
+            }
+        });
+
+        for (let advance of advances) {  
+            console.log(advance.StateChanges)          
+            for (let state of advance.StateChanges) {
+                await state.change();
+            }
+        }
     }
 }
 

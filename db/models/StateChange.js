@@ -23,6 +23,13 @@ StateChange.init({
             key: 'id'
         }
     },
+    advanceId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: sequelize.models.AffectToAdvance,
+            key: 'id'
+        }
+    },
     state: {
         type: DataTypes.BOOLEAN,
         allowNull: false
