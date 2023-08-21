@@ -27,11 +27,11 @@ sequelize.sync({ force: true }).then(async () => {
     const state = await models.StateChange.create({
         linkId: link.id,
         advanceId: sLink.advance[0].id,
-        state: true
+        state: false
     });
 
     await world.changeState(affect);
     await link.reload();  
     
-    console.log(await world.activeNexts(storylet1));
+    console.log(await world.activeLinks(storylet1));
 });

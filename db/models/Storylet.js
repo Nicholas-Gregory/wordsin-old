@@ -19,19 +19,6 @@ class Storylet extends Model {
 
         return { link, advance };
     }
-    
-    async affectsAndNexts() {
-        const affectsAndLinks = await NextStorylet.findAll({
-            where: {
-                current: this.id
-            }
-        });
-
-        return await Promise.all(affectsAndLinks.map(async element => ({ 
-            storylet: await Storylet.findByPk(element.next), 
-            affects: await element.getAffects()
-        })));
-    }
 }
 
 Storylet.init({

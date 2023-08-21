@@ -26,7 +26,7 @@ class World extends Model {
         }
     }
 
-    async activeNexts(storylet) {
+    async activeLinks(storylet) {
         const sLinks = await NextStorylet.findAll({
             where: {
                 first: storylet.id
@@ -38,9 +38,8 @@ class World extends Model {
                 active: true
             }
         });
-        const activeLinks = sLinks.filter(sLink => links.find(link => link.linkId === sLink.id));
 
-        return await Promise.all(activeLinks.map(async aLink => await Storylet.findByPk(aLink.second)));
+        return sLinks.filter(sLink => links.find(link => link.linkId === sLink.id));
     }
 }
 
