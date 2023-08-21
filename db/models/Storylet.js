@@ -8,8 +8,8 @@ class Storylet extends Model {
 
     async link(storylet, affects) {
         const link = await NextStorylet.create({
-            second: storylet.id,
-            first: this.id
+            first: storylet.id,
+            second: this.id
         });
         
         const advance = await AffectToAdvance.bulkCreate(affects.map(affect => ({

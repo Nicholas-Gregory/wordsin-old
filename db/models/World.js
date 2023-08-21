@@ -27,7 +27,7 @@ class World extends Model {
 
     async activeNexts(storylet) {
         const next = await storylet.getNext();
-        
+        console.log(next);
     }
 }
 
