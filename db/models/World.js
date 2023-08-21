@@ -3,6 +3,8 @@ const sequelize = require('../connection');
 
 const StateChange = require('./StateChange');
 const AffectToAdvance = require('./AffectToAdvance');
+const Storylet = require('./Storylet');
+const LinkInWorld = require('./LinkInWorld');
 
 class World extends Model {
 
@@ -21,6 +23,11 @@ class World extends Model {
                 await state.change();
             }
         }
+    }
+
+    async activeNexts(storylet) {
+        const next = await storylet.getNext();
+        
     }
 }
 

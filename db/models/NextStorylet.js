@@ -11,14 +11,14 @@ NextStorylet.init({
         unique: true,
         allowNull: false
     },
-    next: {
+    second: {
         type: DataTypes.INTEGER,
         references: {
             model: sequelize.models.Storylet,
             key: 'id'
         }
     },
-    current: {
+    first: {
         type: DataTypes.INTEGER,
         references: {
             model: sequelize.models.Storylet,

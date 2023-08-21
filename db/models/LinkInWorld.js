@@ -5,7 +5,7 @@ class LinkInWorld extends Model {
 
     async update(state) {
         this.active = state;
-        await this.save();
+        await this.save();        
     }
 }
 

@@ -146,13 +146,13 @@ Enchantment.belongsToMany(Equipment, {
 
 Storylet.belongsToMany(Storylet, {
     through: NextStorylet,
-    foreignKey: 'current',
-    as: 'previous'
+    foreignKey: 'first',
+    as: 'next'
 });
 Storylet.belongsToMany(Storylet, {
     through: NextStorylet,
-    foreignKey: 'next',
-    as: 'next'
+    foreignKey: 'second',
+    as: 'previous'
 });
 
 Affect.belongsToMany(NextStorylet, {

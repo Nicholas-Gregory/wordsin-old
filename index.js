@@ -31,7 +31,7 @@ sequelize.sync({ force: true }).then(async () => {
     });
 
     await world.changeState(affect);
-    await link.reload();
-
-    console.log(link.active);
+    await link.reload();  
+    
+    await world.activeNexts(storylet1);
 });
