@@ -16,8 +16,7 @@ class World extends Model {
             }
         });
 
-        for (let advance of advances) {  
-            console.log(advance.StateChanges)          
+        for (let advance of advances) {                  
             for (let state of advance.StateChanges) {
                 await state.change();
             }
