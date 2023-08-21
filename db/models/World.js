@@ -5,6 +5,7 @@ const StateChange = require('./StateChange');
 const AffectToAdvance = require('./AffectToAdvance');
 const Storylet = require('./Storylet');
 const LinkInWorld = require('./LinkInWorld');
+const NextStorylet = require('./NextStorylet');
 
 class World extends Model {
 
@@ -26,8 +27,20 @@ class World extends Model {
     }
 
     async activeNexts(storylet) {
-        const next = await storylet.getNext();
-        console.log(next);
+        const sLinks = await NextStorylet.findAll({
+            where: {
+                first: storylet.id
+            }
+        });
+        const links = await LinkInWorld.findAll({
+            where: {
+                worldId: this.id,
+                active: true
+            }
+        });
+        const activeLinks = sLinks.filter(sLink => links.find(link => link.linkId === sLink.id));
+
+        return await Promise.all(activeLinks.map(async aLink => await Storylet.findByPk(aLink.second)));
     }
 }
 
