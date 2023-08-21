@@ -188,6 +188,9 @@ NextStorylet.belongsToMany(World, {
 LinkInWorld.hasMany(StateChange, { foreignKey: 'linkId' });
 StateChange.belongsTo(LinkInWorld, { foreignKey: 'linkId' });
 
+AffectToAdvance.hasMany(StateChange, { foreignKey: 'advanceId' });
+StateChange.belongsTo(AffectToAdvance, { foreignKey: 'advanceId' });
+
 module.exports = {
     Character, 
     ItemInventory, Item,
