@@ -5,16 +5,23 @@ const StateChange = require('./StateChange');
 const AffectToAdvance = require('./AffectToAdvance');
 const LinkInWorld = require('./LinkInWorld');
 const Storylet = require('./Storylet');
+const NextStorylet = require('./NextStorylet');
 
 class World extends Model {
 
-    async changeState(affect) {
+    async changeState(currentStorylet, affect) {
+        const links = await NextStorylet.findAll({
+            where: {
+                first: currentStorylet.id
+            }
+        });
         const advances = await AffectToAdvance.findAll({
             where: {
-                affectId: affect.id
+                affectId: affect.id,
+                next: links.map(link => link.id)
             },
             include: {
-                model: StateChange,
+                model: StateChange
             }
         });
 
@@ -38,13 +45,13 @@ class World extends Model {
     }
 
     async advance(currentStorylet, affect) {
-        await this.changeState(affect);
+        await this.changeState(currentStorylet, affect);
 
         const activeLinks = await this.activeLinks(currentStorylet);        
         const affectLinks = await affect.getNextStorylets();
         const link = activeLinks.find(link => affectLinks.find(aLink => aLink.id === link.id));
 
-        return await Storylet.findOne({ where: { id: link.second } });
+        return await link ? Storylet.findByPk(link.second) : { message: "No next storylet" };
     }
 }
 
