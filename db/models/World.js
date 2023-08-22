@@ -3,9 +3,8 @@ const sequelize = require('../connection');
 
 const StateChange = require('./StateChange');
 const AffectToAdvance = require('./AffectToAdvance');
-const Storylet = require('./Storylet');
 const LinkInWorld = require('./LinkInWorld');
-const NextStorylet = require('./NextStorylet');
+const Storylet = require('./Storylet');
 
 class World extends Model {
 
@@ -27,11 +26,7 @@ class World extends Model {
     }
 
     async activeLinks(storylet) {
-        const sLinks = await NextStorylet.findAll({
-            where: {
-                first: storylet.id
-            }
-        });
+        const sLinks = await storylet.getLinks();
         const links = await LinkInWorld.findAll({
             where: {
                 worldId: this.id,
@@ -40,6 +35,16 @@ class World extends Model {
         });
 
         return sLinks.filter(sLink => links.find(link => link.linkId === sLink.id));
+    }
+
+    async advance(currentStorylet, affect) {
+        await this.changeState(affect);
+
+        const activeLinks = await this.activeLinks(currentStorylet);        
+        const affectLinks = await affect.getNextStorylets();
+        const link = activeLinks.find(link => affectLinks.find(aLink => aLink.id === link.id));
+
+        return await Storylet.findOne({ where: { id: link.second } });
     }
 }
 

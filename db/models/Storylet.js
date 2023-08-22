@@ -19,6 +19,14 @@ class Storylet extends Model {
 
         return { link, advance };
     }
+
+    async getLinks() {
+        return await NextStorylet.findAll({
+            where: {
+                first: this.id
+            }
+        });
+    }
 }
 
 Storylet.init({
