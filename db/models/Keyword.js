@@ -3,6 +3,9 @@ const sequelize = require('../connection');
 
 class Keyword extends Model {
 
+    compare(keyword) {
+        return this.word === keyword.word;
+    }
 }
 
 Keyword.init({

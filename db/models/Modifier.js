@@ -1,11 +1,17 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../connection');
 
+const Keyword = require('./Keyword');
+
 class Modifier extends Model {
 
     async associateKeyword(keyword) {
         this.keywordId = keyword.id;
         await this.save();
+    }
+
+    async word() {
+        return (await Keyword.findByPk(this.keywordId)).word;
     }
 }
 

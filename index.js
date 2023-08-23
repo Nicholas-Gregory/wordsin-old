@@ -2,40 +2,49 @@ const sequelize = require('./db/connection');
 const models = require('./db/models');
 
 sequelize.sync({ force: true }).then(async () => {
-    const storylet1 = await models.Storylet.create({
-        body: "You see a chair"
+    const roland = await models.Character.create({
+        name: 'roland'
     });
-    const storylet2 = await models.Storylet.create({
-        body: "The chair is wet"
-    });
+    await roland.initInventories();
 
-    const move = await models.Keyword.create({
-        word: 'move'
+    const keyword1 = await models.Keyword.create({
+        word: 'blast'
     });
-    const fly = await models.Keyword.create({
-        word: 'fly'
+    const effect = await models.Effect.create({
+        ceil: 2,
+        time: 10
     });
-    const affect1 = await models.Affect.create({
-        keywordId: move.id,
-        requirement: 4
-    });
-    const affect2 = await models.Affect.create({
-        keywordId: fly.id,
-        requirement: 4
-    });
+    await effect.addKeyword(keyword1);
 
-    const sLink = await storylet1.link(storylet2, [affect1, affect2]);
+    const item = await models.Item.create({
+        name: 'bomb',
+        description: 'goes boom'
+    });
+    await item.associateEffect(effect);
 
-    const world = await models.World.create({});
-    const link = await models.LinkInWorld.create({
-        worldId: world.id,
-        linkId: sLink.link.id,
+    await roland.addItemToInventory(item);
+
+    const modifier1 = await models.Modifier.create({
+        amount: 5
     });
-    const state = await models.StateChange.create({
-        linkId: link.id,
-        advanceId: sLink.advance[0].id,
-        state: true
+    await modifier1.associateKeyword(keyword1);
+
+    const keyword2 = await models.Keyword.create({
+        word: 'slow'
     });
-    
-    console.log(await world.advance(storylet1, affect1));
+    const modifier2 = await models.Modifier.create({
+        amount: 3
+    });
+    await modifier2.associateKeyword(keyword2);
+
+    const equipment = await models.Equipment.create({
+        name: 'sword of blast and slow',
+        description: 'a sword'
+    });
+    await equipment.addModifier(modifier1);
+    await equipment.addModifier(modifier2);
+
+    await roland.addEquipmentToInventory(equipment);
+
+    console.log(await roland.use(item));
 });

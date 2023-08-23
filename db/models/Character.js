@@ -4,6 +4,7 @@ const sequelize = require('../connection');
 const ItemInventory = require('./ItemInventory');
 const EquipmentInventory = require('./EquipmentInventory');
 const GrimoireInventory = require('./GrimoireInventory');
+const { roll } = require('../../lib/roll');
 
 class Character extends Model {
     
@@ -41,6 +42,9 @@ class Character extends Model {
 
         for (let equip of equipment) {            
             result.push(...await equip.getModifiers());
+            for (let enchantment of await equip.getEnchantments()) {
+                result.push(...await enchantment.getModifiers());
+            }
         }
 
         return result;
@@ -51,6 +55,46 @@ class Character extends Model {
         const skillModifiers = await this.getModifiers();
 
         return [...equipmentModifiers, ...skillModifiers];
+    }
+
+    async putInWorld(world) {
+        this.worldId = world.id;
+        await this.save();
+    }
+
+    async getResult(effect) {
+        const modifiers = await this.allModifiers();
+        const keywords = await effect.getKeywords();
+        const effectKeywords = keywords.map(keyword => keyword.word);
+
+        const activeModifiers = [];
+        for (let modifier of modifiers) {
+            if (effectKeywords.includes((await modifier.getKeyword()).word)) {
+                activeModifiers.push(modifier);
+            }
+        }
+
+        return {
+            keywords: keywords,
+            amount: roll(effect.ceil, ...activeModifiers.map(modifier => modifier.amount))
+        };
+    }
+
+    async use(item) {
+        const inventory = await this.getItemInventory();
+        const effect = await item.getEffect();
+
+        await inventory.remove(item);
+
+        return this.getResult(effect);
+    }
+
+    async cast(spell) {
+
+    }
+
+    async attack() {
+
     }
 }
 
