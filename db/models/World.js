@@ -45,8 +45,6 @@ class World extends Model {
     }
 
     async advance(currentStorylet, affect) {
-        await this.changeState(currentStorylet, affect);
-
         const activeLinks = await this.activeLinks(currentStorylet);        
         const affectLinks = await affect.getNextStorylets();
         const link = activeLinks.find(link => affectLinks.find(aLink => aLink.id === link.id));

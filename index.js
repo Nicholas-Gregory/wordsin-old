@@ -12,12 +12,19 @@ sequelize.sync({ force: true }).then(async () => {
     const move = await models.Keyword.create({
         word: 'move'
     });
-    const affect = await models.Affect.create({
+    const fly = await models.Keyword.create({
+        word: 'fly'
+    });
+    const affect1 = await models.Affect.create({
         keywordId: move.id,
         requirement: 4
     });
+    const affect2 = await models.Affect.create({
+        keywordId: fly.id,
+        requirement: 4
+    });
 
-    const sLink = await storylet1.link(storylet2, [affect]);
+    const sLink = await storylet1.link(storylet2, [affect1, affect2]);
 
     const world = await models.World.create({});
     const link = await models.LinkInWorld.create({
@@ -27,8 +34,8 @@ sequelize.sync({ force: true }).then(async () => {
     const state = await models.StateChange.create({
         linkId: link.id,
         advanceId: sLink.advance[0].id,
-        state: false
+        state: true
     });
     
-    console.log(await world.advance(storylet1, affect));
+    console.log(await world.advance(storylet1, affect1));
 });
