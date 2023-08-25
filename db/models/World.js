@@ -67,7 +67,7 @@ class World extends Model {
         const activeLinks = await this.activeLinks(currentStorylet);        
         const affectLinks = await affect.getNextStorylets();
         const link = activeLinks.find(link => affectLinks.find(aLink => aLink.id === link.id));
-        console.log(link);
+        
         if (link) {
             this.currentStorylet = link.second;
             await this.save();
