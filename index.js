@@ -46,5 +46,30 @@ sequelize.sync({ force: true }).then(async () => {
 
     await roland.addEquipmentToInventory(equipment);
 
-    console.log(await roland.use(item));
+    const storylet1 = await models.Storylet.create({ 
+        body: 'You see a chair.'
+    });
+    const storylet2 = await models.Storylet.create({
+        body: 'The chair is wet'
+    });
+    const affect = await models.Affect.create({
+        keywordId: keyword1.id,
+        requirement: 1
+    });
+    const link = await storylet1.link(storylet2, [affect]);
+
+    const world = await models.World.create({
+        currentStorylet: storylet1.id
+    });
+
+    const worldLink = await models.LinkInWorld.create({
+        worldId: world.id,
+        linkId: link.link.id
+    })
+
+    const result = await roland.use(item);
+    const affectSucceeded = await world.affectSucceeded(result);
+    await world.advance(affectSucceeded);
+
+    console.log(await world.getStorylet());
 });

@@ -4,12 +4,12 @@ const sequelize = require('../connection');
 const StateChange = require('./StateChange');
 const AffectToAdvance = require('./AffectToAdvance');
 const LinkInWorld = require('./LinkInWorld');
-const Storylet = require('./Storylet');
 const NextStorylet = require('./NextStorylet');
 
 class World extends Model {
 
-    async changeState(currentStorylet, affect) {
+    async changeState(affect) {
+        const currentStorylet = await this.getStorylet();
         const links = await NextStorylet.findAll({
             where: {
                 first: currentStorylet.id
@@ -32,8 +32,9 @@ class World extends Model {
         }
     }
 
-    async activeLinks(storylet) {
-        const sLinks = await storylet.getLinks();
+    async activeLinks() {
+        const currentStorylet = await this.getStorylet();
+        const sLinks = await currentStorylet.getLinks();
         const links = await LinkInWorld.findAll({
             where: {
                 worldId: this.id,
@@ -41,15 +42,36 @@ class World extends Model {
             }
         });
 
-        return sLinks.filter(sLink => links.find(link => link.linkId === sLink.id));
+        return sLinks
+        .filter(sLink => links
+            .find(link => link.linkId === sLink.id));
     }
 
-    async advance(currentStorylet, affect) {
+    async affectSucceeded(result) {
+        const currentStorylet = await this.getStorylet();
+        const affects = await currentStorylet.affectsToAdvance();
+        const keywords = await Promise.all(affects
+            .map(async affect => await affect.getKeyword()));
+        const resultKeywords = result.keywords.map(keyword => keyword.word);
+
+        for (let affect of affects) {
+            if (affect.requirement <= result.amount &&
+                keywords.find(keyword => resultKeywords.includes(keyword.word))) {
+                    return affect;
+            }
+        }
+    }
+
+    async advance(affect) {
+        const currentStorylet = await this.getStorylet();
         const activeLinks = await this.activeLinks(currentStorylet);        
         const affectLinks = await affect.getNextStorylets();
         const link = activeLinks.find(link => affectLinks.find(aLink => aLink.id === link.id));
-
-        return await link ? Storylet.findByPk(link.second) : { message: "No next storylet" };
+        console.log(link);
+        if (link) {
+            this.currentStorylet = link.second;
+            await this.save();
+        }
     }
 }
 
@@ -60,6 +82,13 @@ World.init({
         autoIncrement: true,
         unique: true,
         allowNull: false
+    },
+    currentStorylet: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: sequelize.models.Storylet,
+            key: 'id'
+        }
     }
 }, {
     sequelize,

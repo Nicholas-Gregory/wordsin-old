@@ -54,6 +54,9 @@ Modifier.belongsToMany(Character, {
 World.hasMany(Character, { foreignKey: 'worldId' });
 Character.belongsTo(World, { foreignKey: 'worldId' });
 
+Storylet.hasMany(World, { foreignKey: 'currentStorylet' });
+World.belongsTo(Storylet, { foreignKey: 'currentStorylet' });
+
 EquipmentInventory.belongsToMany(Equipment, {
     through: EquipmentInInventory,
     foreignKey: 'inventoryId' 

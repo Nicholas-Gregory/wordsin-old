@@ -27,6 +27,17 @@ class Storylet extends Model {
             }
         });
     }
+
+    async affectsToAdvance() {
+        const links = await this.getLinks();
+        const affects = [];
+
+        for (let link of links) {
+            affects.push(...await link.getAffects());
+        }
+
+        return affects;
+    }
 }
 
 Storylet.init({

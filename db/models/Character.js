@@ -86,7 +86,7 @@ class Character extends Model {
 
         await inventory.remove(item);
 
-        return this.getResult(effect);
+        return await this.getResult(effect);
     }
 
     async cast(spell) {
