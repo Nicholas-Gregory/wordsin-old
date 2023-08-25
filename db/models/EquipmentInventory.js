@@ -5,8 +5,28 @@ const EquipmentInInventory = require('./EquipmentInInventory');
 
 class EquipmentInventory extends Model {
 
+    static typeMaxes = {
+        head: 1,
+        bodyUnder: 1,
+        bodyOver: 1,
+        legs: 1,
+        jewlery: 5,
+        pocket: 4
+    }
+
     async total() {
         return (await this.getEquipment()).length;
+    }
+
+    async typeTotals() {
+        const equipment = await this.getEquipment();
+        const totals = {}
+
+        for (item of equipment) {
+            totals[item.type] ? totals[item.type]++ : totals[item.type] = 1
+        }
+
+        return totals;
     }
 
     async add(equipment) {

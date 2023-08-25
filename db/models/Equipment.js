@@ -42,6 +42,9 @@ Equipment.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    type: {
+        type: DataTypes.STRING
+    },
     effectId: {
         type: DataTypes.INTEGER,
         references: {
