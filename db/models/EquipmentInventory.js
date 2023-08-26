@@ -23,7 +23,7 @@ class EquipmentInventory extends Model {
         const totals = {}
 
         for (item of equipment) {
-            totals[item.type] ? totals[item.type]++ : totals[item.type] = 1
+            totals[item.type] ? totals[item.type]++ : totals[item.type] = 1;
         }
 
         return totals;
@@ -36,18 +36,23 @@ class EquipmentInventory extends Model {
                 equipmentId: equipment.id
             }
         });
+        const ofSameType = (await this.getEquipment())
+        .filter(item => item.type === equipment.type)
+        .length;
 
-        if (through) {
-            if (this.total() < this.capacity) {
-                through.quantity++;
-                await through.save();
+        if (ofSameType < EquipmentInventory.typeMaxes[equipment.type]) {
+            if (through) {
+                if (this.total() < this.capacity) {
+                    through.quantity++;
+                    await through.save();
+                }
+            } else {
+                await EquipmentInInventory.create({
+                    equipmentId: equipment.id,
+                    inventoryId: this.id,
+                    quantity: 1
+                });
             }
-        } else {
-            await EquipmentInInventory.create({
-                equipmentId: equipment.id,
-                inventoryId: this.id,
-                quantity: 1
-            });
         }
     }
 

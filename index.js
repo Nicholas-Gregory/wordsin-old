@@ -18,7 +18,7 @@ sequelize.sync({ force: true }).then(async () => {
 
     const item = await models.Item.create({
         name: 'bomb',
-        description: 'goes boom'
+        description: 'goes boom',
     });
     await item.associateEffect(effect);
 
@@ -39,7 +39,8 @@ sequelize.sync({ force: true }).then(async () => {
 
     const equipment = await models.Equipment.create({
         name: 'sword of blast and slow',
-        description: 'a sword'
+        description: 'a sword',
+        type: 'head'
     });
     await equipment.addModifier(modifier1);
     await equipment.addModifier(modifier2);
@@ -71,5 +72,12 @@ sequelize.sync({ force: true }).then(async () => {
     const affectSucceeded = await world.affectSucceeded(result);
     await world.advance(affectSucceeded);
 
-    console.log(await world.getStorylet());
+    const equipment2 = await models.Equipment.create({
+        name: "another head thing",
+        description: 'head thing',
+        type: 'head'
+    });
+    await roland.addEquipmentToInventory(equipment2);
+
+    console.log(await roland.equipment());
 });
